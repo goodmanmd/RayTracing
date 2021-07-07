@@ -1,4 +1,4 @@
-﻿using System;
+﻿using InAWeekend.Rendering;
 
 namespace InAWeekend
 {
@@ -6,7 +6,8 @@ namespace InAWeekend
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var renderer = new ImageFileRenderer(".\\");
+            renderer.Render();
         }
     }
 }
