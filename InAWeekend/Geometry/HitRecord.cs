@@ -2,7 +2,7 @@
 
 namespace InAWeekend.Geometry
 {
-    readonly struct HitRecord
+    internal readonly struct HitRecord
     {
         public Point3 P { get; }
         public Vector3 Normal { get; }

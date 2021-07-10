@@ -2,7 +2,7 @@
 
 namespace InAWeekend.Geometry
 {
-    readonly struct Ray
+    internal readonly struct Ray
     {
         public Point3 Origin { get; }
         public Vector3 Direction { get; }

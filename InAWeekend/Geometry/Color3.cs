@@ -2,7 +2,7 @@
 
 namespace InAWeekend.Geometry
 {
-    public readonly struct Color3
+    internal readonly struct Color3
     {
         public float R { get; }
         public float G { get; }

@@ -3,7 +3,7 @@ using System.Numerics;
 
 namespace InAWeekend.Geometry
 {
-    public readonly struct Point3
+    internal readonly struct Point3
     {
         public float X { get; }
         public float Y { get; }
