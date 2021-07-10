@@ -1,6 +1,8 @@
-﻿namespace InAWeekend.Geometry
+﻿using System;
+
+namespace InAWeekend.Geometry
 {
-    public class Sphere
+    class Sphere : IHittable
     {
         public Point3 Center { get; }
         public float Radius { get; }

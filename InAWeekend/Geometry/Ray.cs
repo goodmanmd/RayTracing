@@ -3,7 +3,7 @@ using System.Numerics;
 
 namespace InAWeekend.Geometry
 {
-    public readonly struct Ray
+    readonly struct Ray
     {
         public Point3 Origin { get; }
         public Vector3 Direction { get; }
@@ -20,7 +20,7 @@ namespace InAWeekend.Geometry
         }
     }
 
-    public static class RayExtensions
+    static class RayExtensions
     {
         private static readonly Sphere ConstantSphere = new Sphere(new Point3(0, 0, -1), 0.5f);
 
