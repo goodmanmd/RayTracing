@@ -1,5 +1,4 @@
-﻿using System;
-using System.Numerics;
+﻿using System.Numerics;
 
 namespace InAWeekend.Geometry
 {
@@ -14,20 +13,6 @@ namespace InAWeekend.Geometry
             X = x;
             Y = y;
             Z = z;
-        }
-
-        public float this[int index]
-        {
-            get
-            {
-                switch (index)
-                {
-                    case 0: return X;
-                    case 1: return Y;
-                    case 2: return Z;
-                    default: throw new IndexOutOfRangeException();
-                }
-            }
         }
 
         public static Point3 operator +(Point3 lhs, Vector3 rhs)
