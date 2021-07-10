@@ -1,10 +1,13 @@
-﻿using InAWeekend.Geometry;
+﻿using System;
+using InAWeekend.Geometry;
 
 namespace InAWeekend.Rendering
 {
     class RayTraceRenderer : IRenderer
     {
-        public void Render(Scene scene, Camera camera, FrameBuffer frameBuffer)
+        private readonly Random _rng = new Random();
+
+        public void Render(Scene scene, Camera camera, FrameBuffer frameBuffer, int samplesPerPixel)
         {
             var imageHeight = frameBuffer.Height;
             var imageWidth = frameBuffer.Width;
@@ -13,15 +16,35 @@ namespace InAWeekend.Rendering
             {
                 for (var i = 0; i < imageWidth; ++i)
                 {
-                    var u = (float)i / (imageWidth - 1);
-                    var v = (float)j / (imageHeight - 1);
+                    float r = 0, g = 0, b = 0;
 
-                    var ray = camera.GetRay(u, v);
+                    for (var sample = 0; sample < samplesPerPixel; sample++)
+                    {
+                        var u = (float)(i + _rng.NextDouble()) / (imageWidth - 1);
+                        var v = (float)(j + _rng.NextDouble()) / (imageHeight - 1);
 
-                    var pixelColor = ray.Trace(scene);
-                    frameBuffer[i, j] += pixelColor;
+                        var ray = camera.GetRay(u, v);
+
+                        var pixelColor = ray.Trace(scene);
+
+                        r += pixelColor.R;
+                        g += pixelColor.G;
+                        b += pixelColor.B;
+                    }
+
+                    frameBuffer[i, j] = new Color3
+                    (
+                        NormalizeColor(r, samplesPerPixel),
+                        NormalizeColor(g, samplesPerPixel),
+                        NormalizeColor(b, samplesPerPixel)
+                    );
                 }
             }
+        }
+
+        private float NormalizeColor(float value, int numberOfSamples)
+        {
+            return Math.Max(0.0f, Math.Min(1.0f, value / numberOfSamples));
         }
     }
 }
