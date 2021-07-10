@@ -39,6 +39,8 @@ namespace InAWeekend.Rendering
                         NormalizeColor(b, samplesPerPixel)
                     );
                 }
+
+                Console.WriteLine($"{j} of {frameBuffer.Height} scan lines remaining");
             }
         }
 
