@@ -52,6 +52,11 @@ namespace InAWeekend.Geometry
 
         public static readonly Color3 White = new Color3(1.0f, 1.0f, 1.0f);
         public static readonly Color3 Black = new Color3(0.0f, 0.0f, 0.0f);
+
+        public static readonly Color3 Red = new Color3(1.0f, 0.0f, 0.0f);
+        public static readonly Color3 Green = new Color3(0.0f, 1.0f, 0.0f);
+        public static readonly Color3 Blue = new Color3(0.0f, 0.0f, 1.0f);
+
         public static readonly Color3 SkyBlue = new Color3(0.5f, 0.7f, 1.0f);
     }
 }

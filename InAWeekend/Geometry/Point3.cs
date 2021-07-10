@@ -35,6 +35,11 @@ namespace InAWeekend.Geometry
             return new Point3(lhs.X + rhs.X, lhs.Y + rhs.Y, lhs.Z + rhs.Z);
         }
 
+        public static Point3 operator -(Point3 lhs, Point3 rhs)
+        {
+            return new Point3(lhs.X - rhs.X, lhs.Y - rhs.Y, lhs.Z - rhs.Z);
+        }
+
         public static Point3 operator -(Point3 lhs, Vector3 rhs)
         {
             return new Point3(lhs.X - rhs.X, lhs.Y - rhs.Y, lhs.Z - rhs.Z);
