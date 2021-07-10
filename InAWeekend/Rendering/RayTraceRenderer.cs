@@ -16,11 +16,7 @@ namespace InAWeekend.Rendering
                     var u = (float)i / (imageWidth - 1);
                     var v = (float)j / (imageHeight - 1);
 
-                    var ray = new Ray
-                    (
-                        camera.Origin,
-                        camera.LowerLeftCorner.AsVector() + u * camera.Horizontal + v * camera.Vertical - camera.Origin.AsVector()
-                    );
+                    var ray = camera.GetRay(u, v);
 
                     var pixelColor = ray.Trace(scene);
                     frameBuffer[i, j] += pixelColor;

@@ -17,13 +17,8 @@ namespace InAWeekend.Rendering
         
         public Point3 LowerLeftCorner { get; }
 
-        public Camera()
+        public Camera() : this(2.0f, 16.0f / 9.0f, 1.0f)
         {
-            ViewportHeight = 2.0f;
-            AspectRatio = 16.0f / 9.0f;
-            FocalLength = 1.0f;
-
-            Origin = new Point3(0, 0, 0);
         }
 
         public Camera(float viewportHeight, float aspectRatio, float focalLength, Point3 origin = default)
@@ -38,6 +33,15 @@ namespace InAWeekend.Rendering
             Horizontal = new Vector3(ViewportWidth, 0, 0);
 
             LowerLeftCorner = origin - Horizontal/2.0f - Vertical/2.0f - new Vector3(0, 0, FocalLength);
+        }
+
+        public Ray GetRay(float u, float v)
+        {
+            return new Ray
+            (
+                Origin, 
+                LowerLeftCorner.AsVector() + u * Horizontal + v * Vertical - Origin.AsVector()
+            );
         }
     }
 }
