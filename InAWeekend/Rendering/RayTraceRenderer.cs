@@ -20,8 +20,8 @@ namespace InAWeekend.Rendering
 
                     for (var sample = 0; sample < samplesPerPixel; sample++)
                     {
-                        var u = (float)(i + _rng.NextDouble()) / (imageWidth - 1);
-                        var v = (float)(j + _rng.NextDouble()) / (imageHeight - 1);
+                        var u = (i + _rng.NextFloat()) / (imageWidth - 1);
+                        var v = (j + _rng.NextFloat()) / (imageHeight - 1);
 
                         var ray = camera.GetRay(u, v);
 
