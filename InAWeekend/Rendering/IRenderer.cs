@@ -2,6 +2,6 @@
 {
     interface IRenderer
     {
-        void Render();
+        void Render(Camera camera, FrameBuffer frameBuffer);
     }
 }
