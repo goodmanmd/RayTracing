@@ -1,4 +1,5 @@
-﻿using InAWeekend.Rendering;
+﻿using InAWeekend.Geometry;
+using InAWeekend.Rendering;
 
 namespace InAWeekend
 {
@@ -13,8 +14,12 @@ namespace InAWeekend
             var camera = new Camera(2.0f, aspectRatio, 1.0f);
             var imageBuffer = new FrameBuffer(imageWidth, imageHeight);
 
+            var scene = new Scene();
+            scene.Add(new Sphere(new Point3(0, 0, -1), 0.5f));
+            scene.Add(new Sphere(new Point3(0, -100.5f, -1), 100));
+
             var renderer = new RayTraceRenderer();
-            renderer.Render(camera, imageBuffer);
+            renderer.Render(scene, camera, imageBuffer);
 
             imageBuffer.SaveAsPpm();
         }

@@ -4,7 +4,7 @@ namespace InAWeekend.Rendering
 {
     class RayTraceRenderer : IRenderer
     {
-        public void Render(Camera camera, FrameBuffer frameBuffer)
+        public void Render(Scene scene, Camera camera, FrameBuffer frameBuffer)
         {
             var imageHeight = frameBuffer.Height;
             var imageWidth = frameBuffer.Width;
@@ -22,7 +22,7 @@ namespace InAWeekend.Rendering
                         camera.LowerLeftCorner.AsVector() + u * camera.Horizontal + v * camera.Vertical - camera.Origin.AsVector()
                     );
 
-                    var pixelColor = ray.NormalColor();
+                    var pixelColor = ray.Trace(scene);
                     frameBuffer[i, j] += pixelColor;
                 }
             }
