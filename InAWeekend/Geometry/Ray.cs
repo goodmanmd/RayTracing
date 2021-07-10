@@ -26,26 +26,30 @@ namespace InAWeekend.Geometry
 
         public static Color3 NormalColor(this Ray r)
         {
-            if (r.HitSphere(ConstantSphere))
+            var t = r.HitSphere(ConstantSphere);
+            if (t > 0.0f)
             {
-                return Color3.Red;
+                var N = (r.At(t) + Vector3.UnitZ).AsVector().Normalize();
+                return 0.5f * new Color3(N.X + 1, N.Y + 1, N.Z + 1);
             }
 
-            var unitVector = Vector3.Normalize(r.Direction);
-            var t = 0.5f * (unitVector.Y + 1.0f);
+            var unitVector = r.Direction.Normalize();
+            t = 0.5f * (unitVector.Y + 1.0f);
 
             return (1.0f - t) * Color3.White + t*Color3.SkyBlue;
         }
 
-        public static bool HitSphere(this Ray r, Sphere s)
+        public static float HitSphere(this Ray r, Sphere s)
         {
             var centerVector = (r.Origin - s.Center).AsVector();
-            var a = r.Direction.Dot(r.Direction);
-            var b = 2.0 * centerVector.Dot(r.Direction);
-            var c = centerVector.Dot(centerVector) - Math.Pow(s.Radius, 2);
-            var discriminant = b * b - 4 * a * c;
+            var a = r.Direction.LengthSquared();
+            var halfB = centerVector.Dot(r.Direction);
+            var c = centerVector.LengthSquared() - Math.Pow(s.Radius, 2);
+            var discriminant = halfB*halfB - a * c;
 
-            return discriminant > 0;
+            return discriminant < 0
+                ? -1.0f
+                : (float)((-halfB - Math.Sqrt(discriminant)) / a);
         }
     }
 }

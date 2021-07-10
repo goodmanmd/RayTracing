@@ -25,16 +25,6 @@ namespace InAWeekend.Geometry
             );
         }
 
-        public static Color3 operator *(Color3 lhs, float rhs)
-        {
-            return new Color3
-            (
-                Math.Min(lhs.R * rhs, 1.0f),
-                Math.Min(lhs.G * rhs, 1.0f),
-                Math.Min(lhs.B * rhs, 1.0f)
-            );
-        }
-
         public static Color3 operator -(Color3 lhs, Color3 rhs)
         {
             return new Color3
@@ -42,6 +32,16 @@ namespace InAWeekend.Geometry
                 Math.Max(lhs.R - rhs.R, 0.0f),
                 Math.Max(lhs.G - rhs.G, 0.0f),
                 Math.Max(lhs.B - rhs.B, 0.0f)
+            );
+        }
+
+        public static Color3 operator *(Color3 lhs, float rhs)
+        {
+            return new Color3
+            (
+                Math.Min(lhs.R * rhs, 1.0f),
+                Math.Min(lhs.G * rhs, 1.0f),
+                Math.Min(lhs.B * rhs, 1.0f)
             );
         }
 
