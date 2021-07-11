@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using InAWeekend.Util;
 
 namespace InAWeekend.Geometry
 {
@@ -21,14 +22,18 @@ namespace InAWeekend.Geometry
 
     static class RayExtensions
     {
-        public static Color3 Trace(this Ray r, Scene scene)
+        public static Color3 Trace(this Ray r, Scene scene, int depth)
         {
-            var rayIntersectsScene = scene.Hit(r, 0, float.MaxValue, out var hit);
+            if (depth <= 0) return Color3.Black;
+
+            var rayIntersectsScene = scene.Hit(r, 0.001f, float.MaxValue, out var hit);
 
             if (rayIntersectsScene)
             {
-                var n = hit.Normal;
-                return 0.5f * new Color3(n.X + 1, n.Y + 1, n.Z + 1);
+                //diffuse reflection
+                var target = hit.P + hit.Normal + RandomHelpers.NextVector3InUnitSphere();
+                var reflectedRay = new Ray(hit.P, (target - hit.P).AsVector());
+                return 0.5f * reflectedRay.Trace(scene, depth - 1);
             }
 
             var unitVector = r.Direction.Normalize();

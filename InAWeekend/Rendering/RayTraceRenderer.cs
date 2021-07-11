@@ -1,13 +1,22 @@
 ﻿using System;
 using InAWeekend.Geometry;
+using InAWeekend.Util;
 
 namespace InAWeekend.Rendering
 {
     class RayTraceRenderer : IRenderer
     {
+        private readonly int _samplesPerPixel;
+        private readonly int _maxRecurseDepth;
         private readonly Random _rng = new Random();
 
-        public void Render(Scene scene, Camera camera, FrameBuffer frameBuffer, int samplesPerPixel)
+        public RayTraceRenderer(int samplesPerPixel, int maxRecurseDepth)
+        {
+            _samplesPerPixel = samplesPerPixel;
+            _maxRecurseDepth = maxRecurseDepth;
+        }
+
+        public void Render(Scene scene, Camera camera, FrameBuffer frameBuffer)
         {
             var imageHeight = frameBuffer.Height;
             var imageWidth = frameBuffer.Width;
@@ -18,14 +27,14 @@ namespace InAWeekend.Rendering
                 {
                     float r = 0, g = 0, b = 0;
 
-                    for (var sample = 0; sample < samplesPerPixel; sample++)
+                    for (var sample = 0; sample < _samplesPerPixel; sample++)
                     {
                         var u = (i + _rng.NextFloat()) / (imageWidth - 1);
                         var v = (j + _rng.NextFloat()) / (imageHeight - 1);
 
                         var ray = camera.GetRay(u, v);
 
-                        var pixelColor = ray.Trace(scene);
+                        var pixelColor = ray.Trace(scene, _maxRecurseDepth);
 
                         r += pixelColor.R;
                         g += pixelColor.G;
@@ -34,9 +43,9 @@ namespace InAWeekend.Rendering
 
                     frameBuffer[i, j] = new Color3
                     (
-                        NormalizeColor(r, samplesPerPixel),
-                        NormalizeColor(g, samplesPerPixel),
-                        NormalizeColor(b, samplesPerPixel)
+                        NormalizeColor(r, _samplesPerPixel),
+                        NormalizeColor(g, _samplesPerPixel),
+                        NormalizeColor(b, _samplesPerPixel)
                     );
                 }
 
