@@ -17,7 +17,7 @@ namespace InAWeekend.Geometry
 
             foreach (var hittable in _objects)
             {
-                if (hittable.Hit(r, min, max, out var hitRecord) && hitRecord.T < closestHit)
+                if (hittable.Hit(r, min, closestHit, out var hitRecord) && hitRecord.T < closestHit)
                 {
                     closestHit = hitRecord.T;
                     hit = hitRecord;
