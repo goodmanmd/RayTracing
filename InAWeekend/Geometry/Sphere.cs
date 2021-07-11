@@ -18,7 +18,7 @@ namespace InAWeekend.Geometry
             var centerVector = (r.Origin - Center).AsVector();
             var a = r.Direction.LengthSquared();
             var halfB = centerVector.Dot(r.Direction);
-            var c = centerVector.LengthSquared() - Math.Pow(Radius, 2);
+            var c = centerVector.LengthSquared() - Radius * Radius;
             var discriminant = halfB * halfB - a * c;
 
             if (discriminant < 0)
@@ -27,12 +27,12 @@ namespace InAWeekend.Geometry
                 return false;
             }
 
-            var sqrtD = Math.Sqrt(discriminant);
-            var root = (float)(-halfB - sqrtD) / a;
+            var sqrtD = (float)Math.Sqrt(discriminant);
+            var root = (-halfB - sqrtD) / a;
 
             if (root < min || root > max)
             {
-                root = (float)(-halfB + sqrtD) / a;
+                root = (-halfB + sqrtD) / a;
                 if (root < min || root > max)
                 {
                     hit = default;
