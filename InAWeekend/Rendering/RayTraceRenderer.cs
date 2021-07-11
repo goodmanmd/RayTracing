@@ -55,7 +55,7 @@ namespace InAWeekend.Rendering
 
         private float NormalizeColor(float value, int numberOfSamples)
         {
-            return Math.Max(0.0f, Math.Min(1.0f, value / numberOfSamples));
+            return MathUtil.Clamp((float)Math.Sqrt(value / numberOfSamples), 0.0f, 0.999f);
         }
     }
 }
