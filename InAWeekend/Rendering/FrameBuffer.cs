@@ -1,4 +1,4 @@
-﻿using InAWeekend.Geometry;
+﻿using InAWeekend.Model;
 
 namespace InAWeekend.Rendering
 {
@@ -16,7 +16,6 @@ namespace InAWeekend.Rendering
 
             _buffer = new Color3[width * height];
         }
-
 
         public Color3 this[int w, int h]
         {

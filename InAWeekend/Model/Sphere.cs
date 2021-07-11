@@ -1,6 +1,7 @@
 ﻿using System;
+using InAWeekend.Geometry;
 
-namespace InAWeekend.Geometry
+namespace InAWeekend.Model
 {
     class Sphere : IHittable
     {

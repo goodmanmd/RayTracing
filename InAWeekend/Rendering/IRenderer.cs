@@ -1,4 +1,4 @@
-﻿using InAWeekend.Geometry;
+﻿using InAWeekend.Model;
 
 namespace InAWeekend.Rendering
 {

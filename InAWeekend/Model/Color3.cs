@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace InAWeekend.Geometry
+namespace InAWeekend.Model
 {
     internal readonly struct Color3
     {

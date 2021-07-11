@@ -1,6 +1,7 @@
 ﻿using System.Numerics;
+using InAWeekend.Geometry;
 
-namespace InAWeekend.Geometry
+namespace InAWeekend.Model
 {
     internal readonly struct HitRecord
     {

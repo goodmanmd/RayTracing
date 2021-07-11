@@ -1,5 +1,6 @@
 ﻿using System;
-using InAWeekend.Geometry;
+using InAWeekend.Core;
+using InAWeekend.Model;
 using InAWeekend.Util;
 
 namespace InAWeekend.Rendering

@@ -1,4 +1,6 @@
-﻿namespace InAWeekend.Geometry
+﻿using InAWeekend.Geometry;
+
+namespace InAWeekend.Model
 {
     interface IHittable
     {

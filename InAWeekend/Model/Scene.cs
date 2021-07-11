@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using InAWeekend.Geometry;
 
-namespace InAWeekend.Geometry
+namespace InAWeekend.Model
 {
     class Scene : IHittable
     {
