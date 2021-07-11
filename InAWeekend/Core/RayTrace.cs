@@ -15,7 +15,7 @@ namespace InAWeekend.Core
             if (rayIntersectsScene)
             {
                 //diffuse reflection
-                var target = hit.P + hit.Normal + RandomHelpers.NextVector3InUnitSphere();
+                var target = hit.P + hit.Normal + RandomHelpers.NextNormalizedVector3();
                 var reflectedRay = new Ray(hit.P, (target - hit.P).AsVector());
                 return 0.5f * reflectedRay.Trace(scene, depth - 1);
             }

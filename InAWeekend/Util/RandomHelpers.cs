@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using InAWeekend.Geometry;
 
 namespace InAWeekend.Util
 {
@@ -41,6 +42,11 @@ namespace InAWeekend.Util
             var z = (float)(r * cosPhi);
 
             return new Vector3(x, y, z);
+        }
+
+        public static Vector3 NextNormalizedVector3()
+        {
+            return NextVector3InUnitSphere().Normalize();
         }
     }
 }
