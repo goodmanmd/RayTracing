@@ -20,8 +20,8 @@ namespace InAWeekend
 
             var groundMaterial = new Lambertian(new Color3(0.8f, 0.8f, 0.0f));
             var centerMaterial = new Lambertian(new Color3(0.7f, 0.3f, 0.3f));
-            var leftMaterial = new Metal(new Color3(0.8f, 0.8f, 0.8f));
-            var rightMaterial = new Metal(new Color3(0.8f, 0.6f, 0.2f));
+            var leftMaterial = new Metal(new Color3(0.8f, 0.8f, 0.8f), 0.3f);
+            var rightMaterial = new Metal(new Color3(0.8f, 0.6f, 0.2f), 1.0f);
 
             var scene = new Scene();
             scene.Add(new Sphere(new Point3(0.0f, -100.5f, -1.0f), 100, groundMaterial));
