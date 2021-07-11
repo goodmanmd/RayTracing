@@ -26,13 +26,21 @@ namespace InAWeekend.Util
 
         public static Vector3 NextVector3InUnitSphere()
         {
-            while (true)
-            {
-                var randomVec = NextVector3(-1.0f, 1.0f);
-                if (randomVec.LengthSquared() >= 1) continue;
+            var u = GlobalRng.NextDouble();
+            var v = GlobalRng.NextDouble();
+            var theta = u * 2.0 * Math.PI;
+            var phi = Math.Acos(2.0 * v - 1);
+            var r = Math.Cbrt(GlobalRng.NextDouble());
+            var sinTheta = Math.Sin(theta);
+            var cosTheta = Math.Cos(theta);
+            var sinPhi = Math.Sin(phi);
+            var cosPhi = Math.Cos(phi);
 
-                return randomVec;
-            }
+            var x = (float)(r * sinPhi * cosTheta);
+            var y = (float)(r * sinPhi * sinTheta);
+            var z = (float)(r * cosPhi);
+
+            return new Vector3(x, y, z);
         }
     }
 }
