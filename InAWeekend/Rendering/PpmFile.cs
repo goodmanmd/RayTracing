@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using InAWeekend.Util;
 
 namespace InAWeekend.Rendering
 {
@@ -27,9 +28,9 @@ namespace InAWeekend.Rendering
                 {
                     var color = frameBuffer[i,j];
                     
-                    var ir = (int)(255.999 * color.R);
-                    var ig = (int)(255.999 * color.G);
-                    var ib = (int)(255.999 * color.B);
+                    var ir = MathUtil.Clamp((int)(256 * color.R), 0, 255);
+                    var ig = MathUtil.Clamp((int)(256 * color.G), 0, 255);
+                    var ib = MathUtil.Clamp((int)(256 * color.B), 0, 255);
 
                     imageFile.Write($"{ir} {ig} {ib}\n");
                 }
