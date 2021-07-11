@@ -35,6 +35,16 @@ namespace InAWeekend.Model
             );
         }
 
+        public static Color3 operator *(Color3 lhs, Color3 rhs)
+        {
+            return new Color3
+            (
+                Math.Min(lhs.R * rhs.R, 1.0f),
+                Math.Min(lhs.G * rhs.G, 1.0f),
+                Math.Min(lhs.B * rhs.B, 1.0f)
+            );
+        }
+
         public static Color3 operator *(Color3 lhs, float rhs)
         {
             return new Color3

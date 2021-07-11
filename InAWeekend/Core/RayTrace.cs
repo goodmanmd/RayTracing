@@ -1,6 +1,5 @@
 ﻿using InAWeekend.Geometry;
 using InAWeekend.Model;
-using InAWeekend.Util;
 
 namespace InAWeekend.Core
 {
@@ -14,10 +13,12 @@ namespace InAWeekend.Core
 
             if (rayIntersectsScene)
             {
-                //diffuse reflection
-                var target = hit.P + hit.Normal + RandomHelpers.NextNormalizedVector3();
-                var reflectedRay = new Ray(hit.P, (target - hit.P).AsVector());
-                return 0.5f * reflectedRay.Trace(scene, depth - 1);
+                if (hit.Material.Scatter(r, hit, out var attenuation, out var scatteredRay))
+                {
+                    return attenuation * scatteredRay.Trace(scene, depth - 1);
+                }
+
+                return Color3.Black;
             }
 
             var unitVector = r.Direction.Normalize();

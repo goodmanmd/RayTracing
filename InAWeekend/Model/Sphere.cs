@@ -1,5 +1,6 @@
 ﻿using System;
 using InAWeekend.Geometry;
+using InAWeekend.Model.Materials;
 
 namespace InAWeekend.Model
 {
@@ -7,11 +8,13 @@ namespace InAWeekend.Model
     {
         public Point3 Center { get; }
         public float Radius { get; }
+        public IMaterial Material { get; }
 
-        public Sphere(Point3 center, float radius)
+        public Sphere(Point3 center, float radius, IMaterial material)
         {
             Center = center;
             Radius = radius;
+            Material = material;
         }
 
         public bool Hit(Ray r, float min, float max, out HitRecord hit)
@@ -44,7 +47,7 @@ namespace InAWeekend.Model
             var p = r.At(root);
             var outwardNormal = (p - Center).AsVector() / Radius;
 
-            hit = new HitRecord(r, p, outwardNormal, root);
+            hit = new HitRecord(r, p, outwardNormal, root, Material);
             return true;
         }
     }
