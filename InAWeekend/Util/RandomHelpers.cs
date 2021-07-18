@@ -8,6 +8,7 @@ namespace InAWeekend.Util
     {
         private static readonly Random GlobalRng = new Random();
 
+        public static float NextFloat() => GlobalRng.NextFloat();
         public static float NextFloat(this Random rng) => (float)rng.NextDouble();
 
         public static float NextFloat(this Random rng, float min, float max)

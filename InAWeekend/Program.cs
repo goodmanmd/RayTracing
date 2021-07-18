@@ -19,14 +19,15 @@ namespace InAWeekend
             var imageBuffer = new FrameBuffer(imageWidth, imageHeight);
 
             var groundMaterial = new Lambertian(new Color3(0.8f, 0.8f, 0.0f));
-            var centerMaterial = new Lambertian(new Color3(0.7f, 0.3f, 0.3f));
-            var leftMaterial = new Metal(new Color3(0.8f, 0.8f, 0.8f), 0.3f);
-            var rightMaterial = new Metal(new Color3(0.8f, 0.6f, 0.2f), 1.0f);
+            var centerMaterial = new Lambertian(new Color3(0.1f, 0.2f, 0.5f));
+            var leftMaterial = new Dielectric(1.5f);
+            var rightMaterial = new Metal(new Color3(0.8f, 0.6f, 0.2f), 0.0f);
 
             var scene = new Scene();
             scene.Add(new Sphere(new Point3(0.0f, -100.5f, -1.0f), 100, groundMaterial));
             scene.Add(new Sphere(new Point3(0.0f, 0.0f, -1.0f), 0.5f, centerMaterial));
             scene.Add(new Sphere(new Point3(-1.0f, 0.0f, -1.0f), 0.5f, leftMaterial));
+            scene.Add(new Sphere(new Point3(-1.0f, 0.0f, -1.0f), -0.4f, leftMaterial));
             scene.Add(new Sphere(new Point3(1.0f, 0.0f, -1.0f), 0.5f, rightMaterial));
 
             var renderer = new RayTraceRenderer(samplesPerPixel, maxRecurseDepth);
