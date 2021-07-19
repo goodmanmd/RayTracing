@@ -31,7 +31,7 @@ namespace InAWeekend.Geometry
             //In the "In a Weekend" guide, this calculation is actually performed in the Dielectric class,
             //but that duplicates the cos(theta) calculation. I think it can make sense here: this behavior
             //seems to be a physical law governing refaction/reflection and not the material itself.
-            if (refractionRatio * sinTheta > 1.0 || Reflectance(cosTheta, refractionRatio) > RandomHelpers.NextFloat())
+            if (refractionRatio * sinTheta > 1.0f || Reflectance(cosTheta, refractionRatio) > ThreadLocalRandom.Instance.NextFloat())
             {
                 return vector.Reflect(normal);
             }

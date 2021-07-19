@@ -1,4 +1,5 @@
-﻿using InAWeekend.Geometry;
+﻿using System;
+using InAWeekend.Geometry;
 using InAWeekend.Model;
 using InAWeekend.Model.Materials;
 using InAWeekend.Rendering;
@@ -14,6 +15,7 @@ namespace InAWeekend
             var imageWidth = (int)(aspectRatio * imageHeight);
             var samplesPerPixel = 100;
             var maxRecurseDepth = 5;
+            var maxThreads = Environment.ProcessorCount;
 
             var camera = new Camera(2.0f, aspectRatio, 1.0f);
             var imageBuffer = new FrameBuffer(imageWidth, imageHeight);
@@ -30,7 +32,7 @@ namespace InAWeekend
             scene.Add(new Sphere(new Point3(-1.0f, 0.0f, -1.0f), -0.4f, leftMaterial));
             scene.Add(new Sphere(new Point3(1.0f, 0.0f, -1.0f), 0.5f, rightMaterial));
 
-            var renderer = new RayTraceRenderer(samplesPerPixel, maxRecurseDepth);
+            var renderer = new RayTraceRenderer(samplesPerPixel, maxRecurseDepth, maxThreads);
             renderer.Render(scene, camera, imageBuffer);
 
             imageBuffer.SaveAsPpm();

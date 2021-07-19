@@ -6,33 +6,16 @@ namespace InAWeekend.Util
 {
     public static class RandomHelpers
     {
-        private static readonly Random GlobalRng = new Random();
-
-        public static float NextFloat() => GlobalRng.NextFloat();
         public static float NextFloat(this Random rng) => (float)rng.NextDouble();
-
-        public static float NextFloat(this Random rng, float min, float max)
-        {
-            return min + (max - min)*rng.NextFloat();
-        }
-
-        public static Vector3 NextVector3()
-        {
-            return new Vector3(GlobalRng.NextFloat(), GlobalRng.NextFloat(), GlobalRng.NextFloat());
-        }
-
-        public static Vector3 NextVector3(float min, float max)
-        {
-            return new Vector3(GlobalRng.NextFloat(min, max), GlobalRng.NextFloat(min, max), GlobalRng.NextFloat(min, max));
-        }
 
         public static Vector3 NextVector3InUnitSphere()
         {
-            var u = GlobalRng.NextDouble();
-            var v = GlobalRng.NextDouble();
+            //see https://karthikkaranth.me/blog/generating-random-points-in-a-sphere/
+            var u = ThreadLocalRandom.Instance.NextDouble();
+            var v = ThreadLocalRandom.Instance.NextDouble();
             var theta = u * 2.0 * Math.PI;
             var phi = Math.Acos(2.0 * v - 1);
-            var r = Math.Cbrt(GlobalRng.NextDouble());
+            var r = Math.Cbrt(ThreadLocalRandom.Instance.NextDouble());
             var sinTheta = Math.Sin(theta);
             var cosTheta = Math.Cos(theta);
             var sinPhi = Math.Sin(phi);
