@@ -6,6 +6,7 @@ namespace InAWeekend.Rendering
     {
         public int Width { get; }
         public int Height { get; }
+        public int PixelCount => Width * Height;
 
         private readonly Color3[] _buffer;
 
