@@ -1,5 +1,6 @@
 ﻿using System;
 using InAWeekend.Geometry;
+using InAWeekend.Gui;
 using InAWeekend.Model;
 using InAWeekend.Model.Materials;
 using InAWeekend.Rendering;
@@ -8,7 +9,8 @@ namespace InAWeekend
 {
     class Program
     {
-        static void Main(string[] args)
+        [STAThread]
+        private static void Main(string[] args)
         {
             var aspectRatio = 16.0f / 9.0f;
             var imageHeight = 400;
@@ -16,6 +18,8 @@ namespace InAWeekend
             var samplesPerPixel = 100;
             var maxRecurseDepth = 5;
             var maxThreads = Environment.ProcessorCount;
+            var outputToWindow = true;
+            var outputToFile = true;
 
             var camera = new Camera(2.0f, aspectRatio, 1.0f);
             var imageBuffer = new FrameBuffer(imageWidth, imageHeight);
@@ -35,7 +39,8 @@ namespace InAWeekend
             var renderer = new RayTraceRenderer(samplesPerPixel, maxRecurseDepth, maxThreads);
             renderer.Render(scene, camera, imageBuffer);
 
-            imageBuffer.SaveAsPpm();
+            if (outputToWindow) imageBuffer.RenderToWindow();
+            if (outputToFile) imageBuffer.SaveAsPpm();
         }
     }
 }

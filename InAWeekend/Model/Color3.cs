@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Drawing;
+using InAWeekend.Util;
 
 namespace InAWeekend.Model
 {
@@ -58,6 +60,15 @@ namespace InAWeekend.Model
         public static Color3 operator *(float lhs, Color3 rhs)
         {
             return rhs * lhs;
+        }
+
+        public static implicit operator Color(Color3 color)
+        {
+            var r = MathUtil.Clamp((int) (255 * color.R), 0, 255);
+            var g = MathUtil.Clamp((int)(255 * color.G), 0, 255);
+            var b = MathUtil.Clamp((int)(255 * color.B), 0, 255);
+
+            return Color.FromArgb(r, g, b);
         }
 
         public static readonly Color3 White = new Color3(1.0f, 1.0f, 1.0f);
