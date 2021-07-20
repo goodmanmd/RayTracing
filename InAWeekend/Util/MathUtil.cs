@@ -13,5 +13,10 @@ namespace InAWeekend.Util
         {
             return Math.Max(min, Math.Min(max, value));
         }
+
+        public static float DegreesToRadians(float degrees)
+        {
+            return degrees * (float)Math.PI / 180.0f;
+        }
     }
 }

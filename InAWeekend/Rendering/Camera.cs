@@ -1,46 +1,60 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 using InAWeekend.Geometry;
+using InAWeekend.Util;
 
 namespace InAWeekend.Rendering
 {
     class Camera
     {
-        public float ViewportHeight { get; }
-        public float ViewportWidth { get; }
-        public float AspectRatio { get; }
-        public float FocalLength { get; }
+        private Point3 Origin { get; }
+        private Point3 LowerLeftCorner { get; }
 
-        public Point3 Origin { get; }
+        private Vector3 Vertical { get; }
+        private Vector3 Horizontal { get; }
 
-        public Vector3 Vertical { get; }
-        public Vector3 Horizontal { get; }
-        
-        public Point3 LowerLeftCorner { get; }
+        private Vector3 U { get; }
+        private Vector3 V { get; }
+        private Vector3 W { get; }
 
-        public Camera() : this(2.0f, 16.0f / 9.0f, 1.0f)
+        public Camera() 
+            : this(
+                new Point3(0, 0, -1), 
+                new Point3(0, 0, 0), 
+                Vector3.UnitY, 
+                40, 
+                1)
         {
         }
 
-        public Camera(float viewportHeight, float aspectRatio, float focalLength, Point3 origin = default)
+        public Camera(
+            Point3 lookFrom,
+            Point3 lookAt,
+            Vector3 vUp,
+            float verticalFieldOfViewInDegrees, 
+            float aspectRatio)
         {
-            ViewportHeight = viewportHeight;
-            ViewportWidth = viewportHeight * aspectRatio;
-            AspectRatio = aspectRatio;
-            FocalLength = focalLength;
-            Origin = origin;
+            var theta = MathUtil.DegreesToRadians(verticalFieldOfViewInDegrees);
+            var h = (float)Math.Tan(theta / 2);
+            var viewportHeight = 2 * h;
+            var viewportWidth = viewportHeight * aspectRatio;
 
-            Vertical = new Vector3(0, ViewportHeight, 0);
-            Horizontal = new Vector3(ViewportWidth, 0, 0);
+            W = (lookFrom - lookAt).AsVector().Normalize();
+            U = vUp.Cross(W);
+            V = W.Cross(U);
 
-            LowerLeftCorner = origin - Horizontal/2.0f - Vertical/2.0f - new Vector3(0, 0, FocalLength);
+            Origin = lookFrom;
+            Horizontal = viewportWidth * U;
+            Vertical = viewportHeight * V;
+            LowerLeftCorner = Origin - Horizontal / 2.0f - Vertical / 2.0f - W;
         }
 
-        public Ray GetRay(float u, float v)
+        public Ray GetRay(float s, float t)
         {
             return new Ray
             (
                 Origin, 
-                LowerLeftCorner.AsVector() + u * Horizontal + v * Vertical - Origin.AsVector()
+                LowerLeftCorner.AsVector() + s * Horizontal + t * Vertical - Origin.AsVector()
             );
         }
     }

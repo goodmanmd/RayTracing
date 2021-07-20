@@ -6,6 +6,7 @@ namespace InAWeekend.Geometry
 {
     public static class Vector3Extensions
     {
+        public static Vector3 Cross(this Vector3 lhs, Vector3 rhs) => Vector3.Cross(lhs, rhs);
         public static float Dot(this Vector3 lhs, Vector3 rhs) => Vector3.Dot(lhs, rhs);
 
         public static bool NearZero(this Vector3 vector)
