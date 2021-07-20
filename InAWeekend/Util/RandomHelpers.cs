@@ -7,6 +7,7 @@ namespace InAWeekend.Util
     public static class RandomHelpers
     {
         public static float NextFloat(this Random rng) => (float)rng.NextDouble();
+        public static float NextFloat(this Random rng, float min, float max) => min + (max-min)*(float)rng.NextDouble();
 
         public static Vector3 NextVector3InUnitSphere()
         {
@@ -31,6 +32,22 @@ namespace InAWeekend.Util
         public static Vector3 NextNormalizedVector3()
         {
             return NextVector3InUnitSphere().Normalize();
+        }
+
+        public static Vector3 NextVector3InUnitDisk()
+        {
+            while (true)
+            {
+                var p = new Vector3
+                (
+                    ThreadLocalRandom.Instance.NextFloat(-1.0f, 1.0f),
+                    ThreadLocalRandom.Instance.NextFloat(-1.0f, 1.0f),
+                    0
+                );
+
+                if (p.LengthSquared() >= 1.0f) continue;
+                return p;
+            }
         }
     }
 }

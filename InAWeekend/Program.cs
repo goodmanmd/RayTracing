@@ -22,7 +22,14 @@ namespace InAWeekend
             var outputToWindow = true;
             var outputToFile = false;
 
-            var camera = new Camera(new Point3(-2, 2, 1), new Point3(0, 0, -1), Vector3.UnitY, 20, aspectRatio);
+            var lookFrom = new Point3(-2, 2, 1);
+            var lookAt = new Point3(0, 0, -1);
+            var up = Vector3.UnitY;
+            var verticalFieldOfViewInDegrees = 20;
+            var aperture = 2.0f;
+            var focusDistance = (lookFrom - lookAt).AsVector().Length();
+
+            var camera = new Camera(lookFrom, lookAt, up, verticalFieldOfViewInDegrees, aspectRatio, aperture, focusDistance);
             var imageBuffer = new FrameBuffer(imageWidth, imageHeight);
 
             var groundMaterial = new Lambertian(new Color3(0.8f, 0.8f, 0.0f));

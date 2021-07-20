@@ -17,22 +17,16 @@ namespace InAWeekend.Rendering
         private Vector3 V { get; }
         private Vector3 W { get; }
 
-        public Camera() 
-            : this(
-                new Point3(0, 0, -1), 
-                new Point3(0, 0, 0), 
-                Vector3.UnitY, 
-                40, 
-                1)
-        {
-        }
+        private float LensRadius { get; }
 
         public Camera(
             Point3 lookFrom,
             Point3 lookAt,
             Vector3 vUp,
             float verticalFieldOfViewInDegrees, 
-            float aspectRatio)
+            float aspectRatio,
+            float aperture,
+            float focusDistance)
         {
             var theta = MathUtil.DegreesToRadians(verticalFieldOfViewInDegrees);
             var h = (float)Math.Tan(theta / 2);
@@ -40,21 +34,26 @@ namespace InAWeekend.Rendering
             var viewportWidth = viewportHeight * aspectRatio;
 
             W = (lookFrom - lookAt).AsVector().Normalize();
-            U = vUp.Cross(W);
+            U = vUp.Cross(W).Normalize();
             V = W.Cross(U);
 
             Origin = lookFrom;
-            Horizontal = viewportWidth * U;
-            Vertical = viewportHeight * V;
-            LowerLeftCorner = Origin - Horizontal / 2.0f - Vertical / 2.0f - W;
+            Horizontal = focusDistance * viewportWidth * U;
+            Vertical = focusDistance * viewportHeight * V;
+            LowerLeftCorner = Origin - Horizontal / 2.0f - Vertical / 2.0f - focusDistance*W;
+
+            LensRadius = aperture / 2.0f;
         }
 
         public Ray GetRay(float s, float t)
         {
+            var rd = LensRadius * RandomHelpers.NextVector3InUnitDisk();
+            var offset = U * rd.X + V * rd.Y;
+
             return new Ray
             (
-                Origin, 
-                LowerLeftCorner.AsVector() + s * Horizontal + t * Vertical - Origin.AsVector()
+                Origin + offset,
+                LowerLeftCorner.AsVector() + s * Horizontal + t * Vertical - Origin.AsVector() - offset
             );
         }
     }
