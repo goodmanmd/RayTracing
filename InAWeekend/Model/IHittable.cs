@@ -4,6 +4,6 @@ namespace InAWeekend.Model
 {
     interface IHittable
     {
-        bool Hit(Ray r, float min, float max, out HitRecord hit);
+        bool HitBy(Ray r, float min, float max, out HitRecord hit);
     }
 }

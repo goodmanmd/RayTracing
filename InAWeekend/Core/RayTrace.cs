@@ -9,7 +9,7 @@ namespace InAWeekend.Core
         {
             if (depth <= 0) return Color3.Black;
 
-            var rayIntersectsScene = scene.Hit(r, 0.001f, float.MaxValue, out var hit);
+            var rayIntersectsScene = scene.HitBy(r, 0.001f, float.MaxValue, out var hit);
 
             if (rayIntersectsScene)
             {

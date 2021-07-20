@@ -17,7 +17,7 @@ namespace InAWeekend.Model
             Material = material;
         }
 
-        public bool Hit(Ray r, float min, float max, out HitRecord hit)
+        public bool HitBy(Ray r, float min, float max, out HitRecord hit)
         {
             var centerVector = (r.Origin - Center).AsVector();
             var a = r.Direction.LengthSquared();

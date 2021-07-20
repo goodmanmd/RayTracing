@@ -10,20 +10,19 @@ namespace InAWeekend.Model
         public void Add(IHittable hittableObject) => _objects.Add(hittableObject);
         public void Clear() => _objects.Clear();
         
-        public bool Hit(Ray r, float min, float max, out HitRecord hit)
+        public bool HitBy(Ray r, float min, float max, out HitRecord hit)
         {
             var closestHit = max;
             var hitSomething = false;
             hit = default;
 
-            foreach (var hittable in _objects)
+            foreach (var obj in _objects)
             {
-                if (hittable.Hit(r, min, closestHit, out var hitRecord) && hitRecord.T < closestHit)
-                {
-                    closestHit = hitRecord.T;
-                    hit = hitRecord;
-                    hitSomething = true;
-                }
+                if (!obj.HitBy(r, min, closestHit, out var hitRecord)) continue;
+
+                closestHit = hitRecord.T;
+                hit = hitRecord;
+                hitSomething = true;
             }
 
             return hitSomething;
