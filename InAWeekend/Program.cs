@@ -25,11 +25,11 @@ namespace InAWeekend
             var outputToWindow = true;
             var outputToFile = false;
 
-            var lookFrom = new Point3(-2, 2, 1);
+            var lookFrom = new Point3(0, 0, 0);
             var lookAt = new Point3(0, 0, -1);
             var up = Vector3.UnitY;
-            var verticalFieldOfViewInDegrees = 20;
-            var aperture = 2.0f;
+            var verticalFieldOfViewInDegrees = 90;
+            var aperture = 0.0f;
             var focusDistance = (lookFrom - lookAt).AsVector().Length();
 
             var camera = new Camera(lookFrom, lookAt, up, verticalFieldOfViewInDegrees, aspectRatio, aperture, focusDistance);
