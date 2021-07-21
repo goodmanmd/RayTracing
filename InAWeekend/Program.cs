@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Numerics;
 using InAWeekend.Geometry;
 using InAWeekend.Gui;
@@ -18,7 +19,9 @@ namespace InAWeekend
             var imageWidth = (int)(aspectRatio * imageHeight);
             var samplesPerPixel = 100;
             var maxRecurseDepth = 5;
-            var maxThreads = Environment.ProcessorCount;
+            var maxThreads = Debugger.IsAttached
+                                    ? 1 
+                                    : Environment.ProcessorCount;
             var outputToWindow = true;
             var outputToFile = false;
 
