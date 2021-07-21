@@ -97,7 +97,7 @@ namespace InAWeekend.Rendering
             lock (_consoleLock)
             {
                 Console.CursorLeft = 0;
-                Console.Write($"Render is {_pixelsRendered / (1.0f * _pixelsInRender):P}% complete");
+                Console.Write($"Render is {_pixelsRendered / (1.0f * _pixelsInRender):P} complete");
             }
         }
 
