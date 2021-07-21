@@ -18,7 +18,7 @@ namespace InAWeekend
             var imageHeight = 400;
             var imageWidth = (int)(aspectRatio * imageHeight);
             var samplesPerPixel = 100;
-            var maxRecurseDepth = 5;
+            var maxRecurseDepth = 50;
             var maxThreads = Debugger.IsAttached
                                     ? 1 
                                     : Environment.ProcessorCount;
