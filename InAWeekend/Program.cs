@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Numerics;
+using System.Threading.Tasks;
 using CommandLine;
 using InAWeekend.Geometry;
 using InAWeekend.Gui;
@@ -36,6 +37,19 @@ namespace InAWeekend
 
             var scene = RandomScene();
 
+            RenderForm outputWindow = null;
+            Task outputWindowThread = Task.CompletedTask;
+
+            if (options.OutputToWindow)
+            {
+                outputWindow = imageBuffer.CreateUiWindow();
+                outputWindowThread = Task.Run(() =>
+                {
+                    outputWindow.EnableRefresh = true;
+                    outputWindow.ShowDialog();
+                });
+            }
+
             var stopWatch = new Stopwatch();
             stopWatch.Start();
 
@@ -49,7 +63,12 @@ namespace InAWeekend
             Console.WriteLine($"Paths per second: {renderer.TotalPaths / stopWatch.Elapsed.TotalSeconds:N} at max depth of {options.MaxRecurseDepth} and {options.SamplesPerPixel} samples per pixel");
 
             if (options.SaveToFile) imageBuffer.SaveAsPpm();
-            if (options.OutputToWindow) imageBuffer.RenderToWindow();
+
+            if (outputWindow != null)
+            {
+                outputWindow.EnableRefresh = false;
+                Task.WaitAll(outputWindowThread);
+            }
         }
 
         private static Scene ThreeBallScene()

@@ -6,14 +6,12 @@ namespace InAWeekend.Gui
 {
     internal static class Gui
     {
-        public static void RenderToWindow(this FrameBuffer frameBuffer)
+        public static RenderForm CreateUiWindow(this FrameBuffer frameBuffer)
         {
             Application.EnableVisualStyles();
-            var form = new RenderForm();
-            var image = frameBuffer.RenderToBitmap();
-            form.DisplayImage(image);
+            var form = new RenderForm(frameBuffer);
 
-            form.ShowDialog();
+            return form;
         }
 
         public static Bitmap RenderToBitmap(this FrameBuffer frameBuffer)
