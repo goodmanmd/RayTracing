@@ -4,11 +4,11 @@ using InAWeekend.Model.Materials;
 
 namespace InAWeekend.Model
 {
-    class Sphere : IHittable
+    struct Sphere : IHittable
     {
-        public Point3 Center { get; }
-        public float Radius { get; }
-        public IMaterial Material { get; }
+        public Point3 Center;
+        public float Radius;
+        public IMaterial Material;
 
         public Sphere(Point3 center, float radius, IMaterial material)
         {

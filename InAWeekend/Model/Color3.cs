@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Drawing;
+using System.Runtime.CompilerServices;
 using InAWeekend.Util;
 
 namespace InAWeekend.Model
 {
-    internal readonly struct Color3
+    internal struct Color3
     {
-        public float R { get; }
-        public float G { get; }
-        public float B { get; }
+        public float R;
+        public float G;
+        public float B;
 
         public Color3(float r, float g, float b)
         {
@@ -17,46 +18,51 @@ namespace InAWeekend.Model
             B = b;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Color3 operator +(Color3 lhs, Color3 rhs)
         {
             return new Color3
             (
-                Math.Min(lhs.R + rhs.R, 1.0f),
-                Math.Min(lhs.G + rhs.G, 1.0f),
-                Math.Min(lhs.B + rhs.B, 1.0f)
+                lhs.R + rhs.R,
+                lhs.G + rhs.G,
+                lhs.B + rhs.B
             );
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Color3 operator -(Color3 lhs, Color3 rhs)
         {
             return new Color3
             (
-                Math.Max(lhs.R - rhs.R, 0.0f),
-                Math.Max(lhs.G - rhs.G, 0.0f),
-                Math.Max(lhs.B - rhs.B, 0.0f)
+                lhs.R - rhs.R,
+                lhs.G - rhs.G,
+                lhs.B - rhs.B
             );
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Color3 operator *(Color3 lhs, Color3 rhs)
         {
             return new Color3
             (
-                Math.Min(lhs.R * rhs.R, 1.0f),
-                Math.Min(lhs.G * rhs.G, 1.0f),
-                Math.Min(lhs.B * rhs.B, 1.0f)
+                lhs.R * rhs.R,
+                lhs.G * rhs.G,
+                lhs.B * rhs.B
             );
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Color3 operator *(Color3 lhs, float rhs)
         {
             return new Color3
             (
-                Math.Min(lhs.R * rhs, 1.0f),
-                Math.Min(lhs.G * rhs, 1.0f),
-                Math.Min(lhs.B * rhs, 1.0f)
+                lhs.R * rhs,
+                lhs.G * rhs,
+                lhs.B * rhs
             );
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Color3 operator *(float lhs, Color3 rhs)
         {
             return rhs * lhs;
@@ -69,6 +75,16 @@ namespace InAWeekend.Model
             var b = MathUtil.Clamp((int)(255 * color.B), 0, 255);
 
             return Color.FromArgb(r, g, b);
+        }
+
+        public static Color3 Random(Random rng)
+        {
+            return new Color3(rng.NextFloat(), rng.NextFloat(), rng.NextFloat());
+        }
+
+        public static Color3 Random(Random rng, float min, float max)
+        {
+            return new Color3(rng.NextFloat(min, max), rng.NextFloat(min, max), rng.NextFloat(min, max));
         }
 
         public static readonly Color3 White = new Color3(1.0f, 1.0f, 1.0f);

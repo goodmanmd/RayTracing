@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Globalization;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace InAWeekend.Geometry
 {
-    internal readonly struct Point3
+    internal struct Point3
     {
-        public float X { get; }
-        public float Y { get; }
-        public float Z { get; }
+        public float X;
+        public float Y;
+        public float Z;
 
         public Point3(float x, float y, float z)
         {
@@ -18,16 +19,19 @@ namespace InAWeekend.Geometry
             Z = z;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Point3 operator +(Point3 lhs, Vector3 rhs)
         {
             return new Point3(lhs.X + rhs.X, lhs.Y + rhs.Y, lhs.Z + rhs.Z);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Point3 operator -(Point3 lhs, Point3 rhs)
         {
             return new Point3(lhs.X - rhs.X, lhs.Y - rhs.Y, lhs.Z - rhs.Z);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Point3 operator -(Point3 lhs, Vector3 rhs)
         {
             return new Point3(lhs.X - rhs.X, lhs.Y - rhs.Y, lhs.Z - rhs.Z);
