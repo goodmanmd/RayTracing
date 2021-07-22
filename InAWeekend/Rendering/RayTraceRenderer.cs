@@ -9,9 +9,7 @@ namespace InAWeekend.Rendering
 {
     class RayTraceRenderer : IRenderer
     {
-        private readonly int _samplesPerPixel;
-        private readonly int _maxRecurseDepth;
-        private readonly int _maxThreads;
+        private readonly Options _options;
 
         private int _pixelsRendered = 0;
         private int _pixelsInRender = 0;
@@ -19,11 +17,9 @@ namespace InAWeekend.Rendering
 
         public long TotalPaths => _totalPaths;
 
-        public RayTraceRenderer(int samplesPerPixel, int maxRecurseDepth, int maxThreads)
+        public RayTraceRenderer(Options options)
         {
-            _samplesPerPixel = samplesPerPixel;
-            _maxRecurseDepth = maxRecurseDepth;
-            _maxThreads = maxThreads <= 1 ? 1 : maxThreads;
+            _options = options;
         }
 
         public void Render(Scene scene, Camera camera, FrameBuffer frameBuffer)
@@ -31,7 +27,7 @@ namespace InAWeekend.Rendering
             _pixelsRendered = 0;
             _pixelsInRender = frameBuffer.PixelCount;
 
-            if (_maxThreads == 1)
+            if (_options.MaxThreads == 1)
             {
                 //if we've only got 1 thread, run the render directly on the current thread
                 RenderCore(scene, camera, frameBuffer, 0);
@@ -40,9 +36,9 @@ namespace InAWeekend.Rendering
             else
             {
                 //otherwise, spin up multiple threads and divide/conquer the render
-                var tasks = new Task[_maxThreads];
+                var tasks = new Task[_options.MaxThreads];
 
-                for (var i = 0; i < _maxThreads; ++i)
+                for (var i = 0; i < _options.MaxThreads; ++i)
                 {
                     var threadId = i;
                     tasks[threadId] = new Task(() => RenderCore(scene, camera, frameBuffer, threadId));
@@ -58,7 +54,7 @@ namespace InAWeekend.Rendering
             var imageHeight = frameBuffer.Height;
             var imageWidth = frameBuffer.Width;
 
-            for (var j = imageHeight - threadId - 1; j >= 0; j -= _maxThreads)
+            for (var j = imageHeight - threadId - 1; j >= 0; j -= _options.MaxThreads)
             {
                 WriteProgressToConsole();
 
@@ -66,14 +62,14 @@ namespace InAWeekend.Rendering
                 {
                     float r = 0, g = 0, b = 0;
 
-                    for (var sample = 0; sample < _samplesPerPixel; sample++)
+                    for (var sample = 0; sample < _options.SamplesPerPixel; sample++)
                     {
                         var u = (i + ThreadLocalRandom.Instance.NextFloat()) / (imageWidth - 1);
                         var v = (j + ThreadLocalRandom.Instance.NextFloat()) / (imageHeight - 1);
 
                         var ray = camera.GetRay(u, v);
 
-                        var pixelColor = ray.Trace(scene, _maxRecurseDepth);
+                        var pixelColor = ray.Trace(scene, _options.MaxRecurseDepth);
 
                         r += pixelColor.R;
                         g += pixelColor.G;
@@ -82,12 +78,12 @@ namespace InAWeekend.Rendering
 
                     frameBuffer[i, j] = new Color3
                     (
-                        NormalizeColor(r, _samplesPerPixel),
-                        NormalizeColor(g, _samplesPerPixel),
-                        NormalizeColor(b, _samplesPerPixel)
+                        NormalizeColor(r, _options.SamplesPerPixel),
+                        NormalizeColor(g, _options.SamplesPerPixel),
+                        NormalizeColor(b, _options.SamplesPerPixel)
                     );
 
-                    Interlocked.Add(ref _totalPaths, _samplesPerPixel);
+                    Interlocked.Add(ref _totalPaths, _options.SamplesPerPixel);
                     Interlocked.Increment(ref _pixelsRendered);
                 }
             }
@@ -98,6 +94,7 @@ namespace InAWeekend.Rendering
         private readonly object _consoleLock = new object();
         private void WriteProgressToConsole()
         {
+            if (!_options.ShowProgress) return;
             lock (_consoleLock)
             {
                 Console.CursorLeft = 0;

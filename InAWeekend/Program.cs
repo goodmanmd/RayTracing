@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Numerics;
+using CommandLine;
 using InAWeekend.Geometry;
 using InAWeekend.Gui;
 using InAWeekend.Model;
@@ -15,16 +16,13 @@ namespace InAWeekend
         [STAThread]
         private static void Main(string[] args)
         {
-            var aspectRatio = 3.0f / 2.0f;
-            var imageWidth = 1200;
-            var imageHeight = (int)(imageWidth / aspectRatio);
-            var samplesPerPixel = 10;
-            var maxRecurseDepth = 50;
-            var maxThreads = Debugger.IsAttached
-                                    ? 1 
-                                    : Environment.ProcessorCount;
-            var outputToWindow = true;
-            var outputToFile = true;
+            Parser.Default.ParseArguments<Options>(args)
+                .WithParsed(RunTrace);
+        }
+
+        static void RunTrace(Options options)
+        {
+            if (options.MaxThreads <= 0) options.MaxThreads = Environment.ProcessorCount;
 
             var lookFrom = new Point3(13, 2, 3);
             var lookAt = new Point3(0, 0, 0);
@@ -33,25 +31,25 @@ namespace InAWeekend
             var aperture = 0.1f;
             var focusDistance = 10.0f;
 
-            var camera = new Camera(lookFrom, lookAt, up, verticalFieldOfViewInDegrees, aspectRatio, aperture, focusDistance);
-            var imageBuffer = new FrameBuffer(imageWidth, imageHeight);
+            var camera = new Camera(lookFrom, lookAt, up, verticalFieldOfViewInDegrees, options.AspectRatio, aperture, focusDistance);
+            var imageBuffer = new FrameBuffer(options.Width, options.Height);
 
             var scene = RandomScene();
 
             var stopWatch = new Stopwatch();
             stopWatch.Start();
 
-            var renderer = new RayTraceRenderer(samplesPerPixel, maxRecurseDepth, maxThreads);
+            var renderer = new RayTraceRenderer(options);
             renderer.Render(scene, camera, imageBuffer);
 
             stopWatch.Stop();
             Console.WriteLine();
             Console.WriteLine($"Render complete in {stopWatch.Elapsed:g}");
             Console.WriteLine($"Total paths: {renderer.TotalPaths:N0}");
-            Console.WriteLine($"Paths per second: {renderer.TotalPaths / stopWatch.Elapsed.TotalSeconds:N} at max depth of {maxRecurseDepth}");
+            Console.WriteLine($"Paths per second: {renderer.TotalPaths / stopWatch.Elapsed.TotalSeconds:N} at max depth of {options.MaxRecurseDepth} and {options.SamplesPerPixel} samples per pixel");
 
-            if (outputToFile) imageBuffer.SaveAsPpm();
-            if (outputToWindow) imageBuffer.RenderToWindow();
+            if (options.SaveToFile) imageBuffer.SaveAsPpm();
+            if (options.OutputToWindow) imageBuffer.RenderToWindow();
         }
 
         private static Scene ThreeBallScene()
