@@ -15,6 +15,9 @@ namespace InAWeekend.Rendering
 
         private int _pixelsRendered = 0;
         private int _pixelsInRender = 0;
+        private long _totalPaths = 0;
+
+        public long TotalPaths => _totalPaths;
 
         public RayTraceRenderer(int samplesPerPixel, int maxRecurseDepth, int maxThreads)
         {
@@ -84,6 +87,7 @@ namespace InAWeekend.Rendering
                         NormalizeColor(b, _samplesPerPixel)
                     );
 
+                    Interlocked.Add(ref _totalPaths, _samplesPerPixel);
                     Interlocked.Increment(ref _pixelsRendered);
                 }
             }

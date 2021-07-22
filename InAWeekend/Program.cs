@@ -37,8 +37,19 @@ namespace InAWeekend
             var imageBuffer = new FrameBuffer(imageWidth, imageHeight);
 
             var scene = RandomScene();
+
+            var stopWatch = new Stopwatch();
+            stopWatch.Start();
+
             var renderer = new RayTraceRenderer(samplesPerPixel, maxRecurseDepth, maxThreads);
             renderer.Render(scene, camera, imageBuffer);
+
+            stopWatch.Stop();
+            Console.WriteLine();
+            Console.WriteLine($"Render complete in {stopWatch.Elapsed:g}");
+            Console.WriteLine($"Total paths: {renderer.TotalPaths:N0}");
+            Console.WriteLine($"Paths per second: {renderer.TotalPaths / stopWatch.Elapsed.TotalSeconds:N} at max depth of {maxRecurseDepth}");
+
             if (outputToFile) imageBuffer.SaveAsPpm();
             if (outputToWindow) imageBuffer.RenderToWindow();
         }
