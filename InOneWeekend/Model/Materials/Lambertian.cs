@@ -18,7 +18,7 @@ namespace InOneWeekend.Model.Materials
 
             if (scatterDirection.NearZero()) scatterDirection = hit.Normal;
 
-            scatteredRay = new Ray(hit.P, scatterDirection);
+            scatteredRay = new Ray(hit.P, scatterDirection, rayInput.Time);
             attenuation = _albedo;
 
             return true;

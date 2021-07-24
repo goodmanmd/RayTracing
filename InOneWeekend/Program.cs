@@ -32,7 +32,7 @@ namespace InOneWeekend
             var aperture = 0.1f;
             var focusDistance = 10.0f;
 
-            var camera = new Camera(lookFrom, lookAt, up, verticalFieldOfViewInDegrees, options.AspectRatio, aperture, focusDistance);
+            var camera = new Camera(lookFrom, lookAt, up, verticalFieldOfViewInDegrees, options.AspectRatio, aperture, focusDistance, 1000f);
             var imageBuffer = new FrameBuffer(options.Width, options.Height);
 
             var scene = RandomScene();
@@ -111,7 +111,9 @@ namespace InOneWeekend
                             // diffuse
                             var albedo = Color3.Random(ThreadLocalRandom.Instance) * Color3.Random(ThreadLocalRandom.Instance);
                             sphereMaterial = new Lambertian(albedo);
-                            scene.Add(new Sphere(center, 0.2f, sphereMaterial));
+                            var animationFunc = AnimationType.Linear(center, new Vector3(0, ThreadLocalRandom.Instance.NextFloat(0, 0.5f), 0));
+
+                            scene.Add(new Sphere(center, 0.2f, sphereMaterial, animationFunc));
                         }
                         else if (chooseMat < 0.95)
                         {

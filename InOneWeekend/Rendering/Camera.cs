@@ -18,6 +18,7 @@ namespace InOneWeekend.Rendering
         private Vector3 W { get; }
 
         private float LensRadius { get; }
+        private float ShutterSpeedInMs { get; }
 
         public Camera(
             Point3 lookFrom,
@@ -26,7 +27,8 @@ namespace InOneWeekend.Rendering
             float verticalFieldOfViewInDegrees, 
             float aspectRatio,
             float aperture,
-            float focusDistance)
+            float focusDistance,
+            float shutterSpeedInMs)
         {
             var theta = MathUtil.DegreesToRadians(verticalFieldOfViewInDegrees);
             var h = (float)Math.Tan(theta / 2);
@@ -38,6 +40,7 @@ namespace InOneWeekend.Rendering
             V = W.Cross(U);
 
             Origin = lookFrom;
+            ShutterSpeedInMs = shutterSpeedInMs;
             Horizontal = focusDistance * viewportWidth * U;
             Vertical = focusDistance * viewportHeight * V;
             LowerLeftCorner = Origin - Horizontal / 2.0f - Vertical / 2.0f - focusDistance*W;
@@ -53,7 +56,8 @@ namespace InOneWeekend.Rendering
             return new Ray
             (
                 Origin + offset,
-                LowerLeftCorner.AsVector() + s * Horizontal + t * Vertical - Origin.AsVector() - offset
+                LowerLeftCorner.AsVector() + s * Horizontal + t * Vertical - Origin.AsVector() - offset,
+                ThreadLocalRandom.Instance.NextFloat(0.0f, ShutterSpeedInMs / 1000) //t0 is always 0 in this model
             );
         }
     }

@@ -21,7 +21,7 @@ namespace InOneWeekend.Model.Materials
             var unitDirection = rayInput.Direction.Normalize();
             var refractedVector = unitDirection.Refract(hit.Normal, refractionRatio);
 
-            scatteredRay = new Ray(hit.P, refractedVector);
+            scatteredRay = new Ray(hit.P, refractedVector, rayInput.Time);
             return true;
         }
     }
