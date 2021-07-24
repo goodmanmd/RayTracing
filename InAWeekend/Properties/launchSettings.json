@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "InAWeekend": {
-      "commandName": "Project",
-      "commandLineArgs": "-w 1200 -h 800 -s 20"
-    }
-  }
-}
