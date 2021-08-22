@@ -17,7 +17,7 @@ namespace InOneWeekend.Model.Materials
         public bool Scatter(Ray rayInput, HitRecord hit, out Color3 attenuation, out Ray scatteredRay)
         {
             var reflected = rayInput.Direction.Normalize().Reflect(hit.Normal);
-            scatteredRay = new Ray(hit.P, reflected + _fuzzFactor * RandomHelpers.NextVector3InUnitSphere());
+            scatteredRay = new Ray(hit.P, reflected + _fuzzFactor * RandomHelpers.NextVector3InUnitSphere(), rayInput.Time);
             attenuation = _albedo;
 
             return scatteredRay.Direction.Dot(hit.Normal) > 0;
