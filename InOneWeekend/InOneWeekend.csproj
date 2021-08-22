@@ -6,6 +6,7 @@
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
     <DisableWinExeOutputInference>true</DisableWinExeOutputInference>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>

@@ -6,6 +6,7 @@ using CommandLine;
 using InOneWeekend.Geometry;
 using InOneWeekend.Gui;
 using InOneWeekend.Model;
+using InOneWeekend.Model.Animation;
 using InOneWeekend.Model.Materials;
 using InOneWeekend.Rendering;
 using InOneWeekend.Util;
@@ -111,9 +112,10 @@ namespace InOneWeekend
                             // diffuse
                             var albedo = Color3.Random(ThreadLocalRandom.Instance) * Color3.Random(ThreadLocalRandom.Instance);
                             sphereMaterial = new Lambertian(albedo);
-                            var animationFunc = AnimationType.Linear(center, new Vector3(0, ThreadLocalRandom.Instance.NextFloat(0, 0.5f), 0));
+                            var animation =
+                                new LinearAnimation(new Vector3(0, ThreadLocalRandom.Instance.NextFloat(0, 0.5f), 0));
 
-                            scene.Add(new Sphere(center, 0.2f, sphereMaterial, animationFunc));
+                            scene.Add(new Sphere(center, 0.2f, sphereMaterial, animation));
                         }
                         else if (chooseMat < 0.95)
                         {

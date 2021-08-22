@@ -1,25 +1,26 @@
 ﻿using System;
 using InOneWeekend.Geometry;
+using InOneWeekend.Model.Animation;
 using InOneWeekend.Model.Materials;
 
 namespace InOneWeekend.Model
 {
     struct Sphere : IHittable
     {
+        public Animation.Animation Animation;
         public Point3 Center;
         public float Radius;
         public IMaterial Material;
-        public Animation Animation;
 
         public Sphere(Point3 center, float radius, IMaterial material)
         {
             Center = center;
             Radius = radius;
             Material = material;
-            Animation = AnimationType.None();
+            Animation = NoAnimation.Instance;
         }
 
-        public Sphere(Point3 center, float radius, IMaterial material, Animation animation)
+        public Sphere(Point3 center, float radius, IMaterial material, Animation.Animation animation)
         {
             Center = center;
             Radius = radius;
@@ -29,7 +30,7 @@ namespace InOneWeekend.Model
 
         public bool HitBy(Ray r, float min, float max, out HitRecord hit)
         {
-            var centerAtRayTime = Animation(Center, r.Time);
+            var centerAtRayTime = Animation.Animate(Center, r.Time);
             var centerVector = (r.Origin - centerAtRayTime).AsVector();
             var a = r.Direction.LengthSquared();
             var halfB = centerVector.Dot(r.Direction);
